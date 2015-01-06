@@ -4,7 +4,7 @@ RUN echo -e "[cloudera-manager]\nname=Cloudera Manager\nbaseurl=http://archive.c
 
 RUN yum -y update && yum groupinstall -y 'development tools' \
  && yum -y install tar vim wget lsof mysql-connector-java jdk cloudera-manager-server openssl-devel \
-    sqlite-devel bzip2-devel
+    sqlite-devel bzip2-devel openssh-server openssh-clients
 RUN wget https://www.python.org/ftp/python/2.7.9/Python-2.7.9.tgz && \
   tar -zxvf Python-2.7.9.tgz && cd Python-2.7.9 &&./configure && make && make install
 
@@ -13,9 +13,13 @@ RUN wget --no-check-certificate https://pypi.python.org/packages/source/s/setupt
 
 RUN curl https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py | python2.7 - && \
   easy_install supervisor
+
+RUN echo 'root:toor' |  chpasswd
+
 COPY supervisord.conf /etc/supervisord.conf
 
 COPY db.properties /etc/cloudera-scm-server/db.properties
 
 CMD ["/usr/local/bin/supervisord"]
-EXPOSE 7180
+
+EXPOSE 7180 7182 22
