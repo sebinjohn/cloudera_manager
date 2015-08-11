@@ -1,0 +1,4 @@
+[cloudera-manager]
+name=Cloudera Manager
+baseurl=http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5/
+gpgcheck = 0
